@@ -41,3 +41,15 @@
 "welcome_body" = "1. 下のボタンからシステム設定を開き、アクセシビリティを許可します。\n\n2. 自宅のディスプレイを接続してウィンドウを配置し、メニューバーから「現在のレイアウトを保存」を選びます。\n\n3. 職場でも保存します。次回切り替えると、約3秒後にウィンドウが復元されます。";
 "open_settings" = "アクセシビリティ設定を開く";
 "welcome_note" = "ScreenMateはメニューバーに常駐します。開いている通常のウィンドウを復元し、最小化・フルスクリーン・Spacesは対象外です。識別できないウィンドウは手動調整が必要な場合があります。\n\nレイアウトはこのMacにのみ保存されます。自動更新は初期設定でオフです。";
+"show_menu_bar_icon" = "メニューバーにアイコンを表示";
+"menu_bar_hint" = "非表示にすると、ScreenMateはDockに表示されます。Dockのアイコンをクリックして設定を開けます。自動復元は引き続き動作します。";
+"open_controls" = "操作メニューを開く…";
+"settings" = "設定…";
+"settings_title" = "ScreenMateの設定";
+"show_display_toast" = "ディスプレイ変更通知を表示";
+"toast_detected" = "ディスプレイ構成を変更";
+"toast_paused" = "自動復元は停止中";
+"toast_paused_detail" = "自動復元はオフになっています。";
+"toast_attention" = "許可が必要です";
+"toast_new_setup" = "新しいディスプレイ構成";
+"toast_complete" = "レイアウト復元を終了";

@@ -41,3 +41,15 @@
 "welcome_body" = "1. Gunakan tombol di bawah untuk mengizinkan Aksesibilitas di Pengaturan Sistem.\n\n2. Hubungkan layar rumah, atur jendela, lalu pilih “Simpan Tata Letak Saat Ini” dari bar menu.\n\n3. Simpan tata letak lain di kantor. Saat beralih kembali, jendela dipulihkan setelah sekitar 3 detik.";
 "open_settings" = "Buka Pengaturan Aksesibilitas";
 "welcome_note" = "ScreenMate berada di bar menu. Aplikasi ini memulihkan jendela biasa yang terbuka dan melewati jendela yang diperkecil, layar penuh, serta Spaces. Jendela yang tidak dapat dibedakan mungkin perlu disesuaikan manual.\n\nTata letak tetap di Mac ini. Pembaruan otomatis dinonaktifkan secara bawaan.";
+"show_menu_bar_icon" = "Tampilkan Ikon Bar Menu";
+"menu_bar_hint" = "Saat disembunyikan, ScreenMate tetap berada di Dock. Klik ikonnya untuk membuka pengaturan. Pemulihan otomatis tetap berjalan.";
+"open_controls" = "Buka Kontrol…";
+"settings" = "Pengaturan…";
+"settings_title" = "Pengaturan ScreenMate";
+"show_display_toast" = "Tampilkan Notifikasi Perubahan Layar";
+"toast_detected" = "KOMBINASI LAYAR BERUBAH";
+"toast_paused" = "PEMULIHAN OTOMATIS DIJEDA";
+"toast_paused_detail" = "Pemulihan otomatis dinonaktifkan.";
+"toast_attention" = "AKSES DIPERLUKAN";
+"toast_new_setup" = "KOMBINASI LAYAR BARU";
+"toast_complete" = "PEMULIHAN TATA LETAK SELESAI";

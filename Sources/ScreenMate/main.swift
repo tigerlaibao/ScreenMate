@@ -3,6 +3,10 @@ import LayoutCore
 import ServiceManagement
 import Localization
 
+private final class SettingsDocumentView: NSView {
+    override var isFlipped: Bool { true }
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var statusItem: NSStatusItem!
     private let menu = NSMenu()
@@ -14,6 +18,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var lastMessage = L10n.text("initial_hint")
     private var timer: Timer?
     private var welcome: NSWindow?
+    private var menuBarCheckbox: NSButton?
+    private let displayToast = DisplayToast()
+    private var showsDisplayToast: Bool {
+        get { UserDefaults.standard.object(forKey: "showsDisplayToast") as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: "showsDisplayToast") }
+    }
+    private var showsMenuBarIcon: Bool {
+        get { UserDefaults.standard.object(forKey: "showsMenuBarIcon") as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: "showsMenuBarIcon") }
+    }
     private var autoRestore: Bool {
         get { UserDefaults.standard.object(forKey: "autoRestore") as? Bool ?? true }
         set { UserDefaults.standard.set(newValue, forKey: "autoRestore") }
@@ -24,20 +38,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.accessory)
-        let mainMenu = NSMenu()
-        let appItem = NSMenuItem()
-        let appMenu = NSMenu()
-        let quitItem = NSMenuItem(title: L10n.text("quit"), action: #selector(quit), keyEquivalent: "q")
-        quitItem.target = self
-        appMenu.addItem(quitItem); appItem.submenu = appMenu
-        mainMenu.addItem(appItem); NSApp.mainMenu = mainMenu
+        configureApplicationMenu()
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = NSImage(systemSymbolName: "rectangle.2.swap", accessibilityDescription: "ScreenMate")
         statusItem.button?.toolTip = L10n.text("tooltip")
         statusItem.menu = menu
         menu.autoenablesItems = false
         menu.delegate = self
+        applyMenuBarVisibility()
         configuration = fingerprint(WindowService.displays())
         NotificationCenter.default.addObserver(self, selector: #selector(screensChanged), name: NSApplication.didChangeScreenParametersNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(wokeUp), name: NSWorkspace.didWakeNotification, object: nil)
@@ -49,23 +57,57 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         } else if autoRestore { scheduleRestore() }
     }
 
+    private func configureApplicationMenu() {
+        let mainMenu = NSMenu()
+        let appItem = NSMenuItem()
+        let appMenu = NSMenu()
+        let settings = NSMenuItem(title: L10n.text("settings"), action: #selector(showWelcome), keyEquivalent: ",")
+        settings.target = self; appMenu.addItem(settings)
+        appMenu.addItem(.separator())
+        let quitItem = NSMenuItem(title: L10n.text("quit"), action: #selector(quit), keyEquivalent: "q")
+        quitItem.target = self; appMenu.addItem(quitItem)
+        appItem.submenu = appMenu
+        mainMenu.addItem(appItem); NSApp.mainMenu = mainMenu
+    }
+
+    private func applyMenuBarVisibility() {
+        statusItem.isVisible = showsMenuBarIcon
+        // Keep the Dock as a persistent entry point whenever the status item is hidden.
+        NSApp.setActivationPolicy(showsMenuBarIcon ? .accessory : .regular)
+        menuBarCheckbox?.state = showsMenuBarIcon ? .on : .off
+    }
+
+    @objc private func toggleMenuBarIcon() {
+        showsMenuBarIcon.toggle()
+        applyMenuBarVisibility()
+        if !showsMenuBarIcon { showWelcome() }
+    }
+
+    @objc private func openControls(_ sender: NSButton) {
+        menu.popUp(positioning: nil, at: NSPoint(x: 0, y: sender.bounds.maxY), in: sender)
+    }
+
     private func fingerprint(_ displays: [Display]) -> String {
         LayoutGeometry.key(displays) + displays.sorted { $0.id < $1.id }.map { "\($0.id)@\($0.frame.x),\($0.frame.y)" }.joined()
     }
 
     @objc private func screensChanged() {
-        let current = fingerprint(WindowService.displays())
+        let displays = WindowService.displays()
+        let current = fingerprint(displays)
         guard current != configuration else { return }
         configuration = current
+        if showsDisplayToast { displayToast.show(displayNames: displays.map(\.name)) }
         scheduleRestore()
     }
 
     @objc private func wokeUp() { scheduleRestore() }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag { showWelcome() }
+        showWelcome()
         return true
     }
+
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     private func scheduleRestore() {
         generation += 1
@@ -73,7 +115,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         pendingRestore?.cancel()
         stableAfter = Date().addingTimeInterval(12)
         let work = DispatchWorkItem { [weak self] in
-            guard let self, self.generation == expected, self.autoRestore else { return }
+            guard let self, self.generation == expected else { return }
+            guard self.autoRestore else {
+                self.displayToast.finish(title: L10n.text("toast_paused"), detail: L10n.text("toast_paused_detail"))
+                return
+            }
             self.restoreLayout()
         }
         pendingRestore = work
@@ -113,6 +159,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(.separator())
         add(L10n.text("auto_restore"), action: #selector(toggleRestore), checked: autoRestore)
         add(L10n.text("auto_save"), action: #selector(toggleSave), checked: autoSave)
+        add(L10n.text("show_menu_bar_icon"), action: #selector(toggleMenuBarIcon), checked: showsMenuBarIcon)
+        add(L10n.text("show_display_toast"), action: #selector(toggleDisplayToast), checked: showsDisplayToast)
         let languageItem = add(L10n.text("language"))
         let languageMenu = NSMenu()
         languageMenu.autoenablesItems = false
@@ -139,6 +187,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         profilesItem.isEnabled = !store.layouts.isEmpty
         menu.addItem(.separator())
         add(L10n.text("help"), action: #selector(showWelcome))
+        add(L10n.text("settings"), action: #selector(showWelcome))
         add(L10n.text("open_data"), action: #selector(openData))
         add(L10n.text("quit"), action: #selector(quit))
     }
@@ -157,7 +206,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         L10n.override = language
         lastMessage = L10n.text("initial_hint")
         statusItem.button?.toolTip = L10n.text("tooltip")
-        NSApp.mainMenu?.items.first?.submenu?.items.first?.title = L10n.text("quit")
+        configureApplicationMenu()
         let wasVisible = welcome?.isVisible == true
         welcome?.close(); welcome = nil
         if wasVisible { showWelcome() }
@@ -166,6 +215,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func permission() { WindowService.requestPermission() }
     @objc private func saveAction() {
         generation += 1; pendingRestore?.cancel()
+        displayToast.hide()
         saveLayout(showErrors: true)
     }
 
@@ -195,18 +245,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     private func restoreLayout() {
-        guard WindowService.trusted else { lastMessage = L10n.text("permission_status"); return }
+        guard WindowService.trusted else {
+            lastMessage = L10n.text("permission_status")
+            displayToast.finish(title: L10n.text("toast_attention"), detail: lastMessage)
+            return
+        }
         let displays = WindowService.displays()
         guard let layout = store.layouts[LayoutGeometry.key(displays)] else {
-            lastMessage = L10n.text("new_setup"); return
+            lastMessage = L10n.text("new_setup")
+            displayToast.finish(title: L10n.text("toast_new_setup"), detail: lastMessage)
+            return
         }
         let result = WindowService.restore(layout, displays: displays)
         lastMessage = L10n.format("restored_status", result.restored, result.total)
+        displayToast.finish(title: L10n.text("toast_complete"), detail: lastMessage)
     }
 
     @objc private func toggleRestore() {
         autoRestore.toggle()
         if !autoRestore { generation += 1; pendingRestore?.cancel() }
+        if !autoRestore { displayToast.hide() }
+    }
+    @objc private func toggleDisplayToast() {
+        showsDisplayToast.toggle()
+        if !showsDisplayToast { displayToast.hide() }
     }
     @objc private func toggleSave() {
         if !autoSave {
@@ -257,7 +319,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func showWelcome() {
         if let welcome { NSApp.activate(ignoringOtherApps: true); welcome.makeKeyAndOrderFront(nil); return }
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 560, height: 500), styleMask: [.titled, .closable], backing: .buffered, defer: false)
-        window.title = L10n.text("welcome_title")
+        window.title = L10n.text("settings_title")
         window.isReleasedWhenClosed = false
         let stack = NSStackView()
         stack.orientation = .vertical; stack.alignment = L10n.isRightToLeft ? .trailing : .leading; stack.spacing = 18
@@ -277,20 +339,47 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         text.font = .systemFont(ofSize: 14); stack.addArrangedSubview(text)
         let button = NSButton(title: L10n.text("open_settings"), target: self, action: #selector(permission))
         button.bezelStyle = .rounded; stack.addArrangedSubview(button)
+        let checkbox = NSButton(checkboxWithTitle: L10n.text("show_menu_bar_icon"), target: self, action: #selector(toggleMenuBarIcon))
+        checkbox.state = showsMenuBarIcon ? .on : .off
+        menuBarCheckbox = checkbox
+        stack.addArrangedSubview(checkbox)
+        let visibilityHint = NSTextField(wrappingLabelWithString: L10n.text("menu_bar_hint"))
+        visibilityHint.preferredMaxLayoutWidth = 504
+        visibilityHint.alignment = L10n.isRightToLeft ? .right : .natural
+        visibilityHint.font = .systemFont(ofSize: 12)
+        visibilityHint.textColor = .secondaryLabelColor
+        stack.addArrangedSubview(visibilityHint)
+        let controls = NSButton(title: L10n.text("open_controls"), target: self, action: #selector(openControls(_:)))
+        controls.bezelStyle = .rounded
+        stack.addArrangedSubview(controls)
         let note = NSTextField(wrappingLabelWithString: L10n.text("welcome_note"))
         note.preferredMaxLayoutWidth = 504
         note.alignment = L10n.isRightToLeft ? .right : .natural
         note.font = .systemFont(ofSize: 12); note.textColor = .secondaryLabelColor
         stack.addArrangedSubview(note)
-        window.contentView!.addSubview(stack)
+        let scroll = NSScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.hasVerticalScroller = true; scroll.autohidesScrollers = true
+        scroll.drawsBackground = false
+        let document = SettingsDocumentView()
+        document.translatesAutoresizingMaskIntoConstraints = false
+        scroll.documentView = document
+        document.addSubview(stack)
+        window.contentView!.addSubview(scroll)
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: window.contentView!.leadingAnchor, constant: 28),
-            stack.trailingAnchor.constraint(equalTo: window.contentView!.trailingAnchor, constant: -28),
-            stack.topAnchor.constraint(equalTo: window.contentView!.topAnchor, constant: 28),
-            stack.bottomAnchor.constraint(lessThanOrEqualTo: window.contentView!.bottomAnchor, constant: -24)
+            scroll.leadingAnchor.constraint(equalTo: window.contentView!.leadingAnchor),
+            scroll.trailingAnchor.constraint(equalTo: window.contentView!.trailingAnchor),
+            scroll.topAnchor.constraint(equalTo: window.contentView!.topAnchor),
+            scroll.bottomAnchor.constraint(equalTo: window.contentView!.bottomAnchor),
+            document.widthAnchor.constraint(equalTo: scroll.contentView.widthAnchor),
+            stack.leadingAnchor.constraint(equalTo: document.leadingAnchor, constant: 28),
+            stack.trailingAnchor.constraint(equalTo: document.trailingAnchor, constant: -28),
+            stack.topAnchor.constraint(equalTo: document.topAnchor, constant: 28),
+            stack.bottomAnchor.constraint(equalTo: document.bottomAnchor, constant: -28)
         ])
         window.contentView!.layoutSubtreeIfNeeded()
-        window.setContentSize(NSSize(width: 560, height: max(440, stack.fittingSize.height + 56)))
+        let availableHeight = max(320, (NSScreen.main?.visibleFrame.height ?? 900) - 100)
+        window.setContentSize(NSSize(width: 560, height: min(availableHeight, max(440, stack.fittingSize.height + 56))))
         welcome = window; window.center()
         NSApp.activate(ignoringOtherApps: true); window.makeKeyAndOrderFront(nil)
     }

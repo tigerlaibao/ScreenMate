@@ -41,3 +41,15 @@
 "welcome_body" = "1. Use o botão abaixo para permitir a Acessibilidade nos Ajustes do Sistema.\n\n2. Conecte a tela de casa, organize as janelas e escolha “Salvar layout atual” na barra de menus.\n\n3. Salve outro layout no trabalho. Ao trocar novamente, as janelas serão restauradas após cerca de 3 segundos.";
 "open_settings" = "Abrir ajustes de Acessibilidade";
 "welcome_note" = "O ScreenMate fica na barra de menus. Ele restaura janelas comuns abertas e ignora janelas minimizadas, em tela cheia e Spaces. Janelas ambíguas podem precisar de ajuste manual.\n\nOs layouts ficam apenas neste Mac. A atualização automática vem desativada.";
+"show_menu_bar_icon" = "Mostrar ícone na barra de menus";
+"menu_bar_hint" = "Quando oculto, o ScreenMate permanece no Dock. Clique no ícone para abrir os ajustes. A restauração automática continua funcionando.";
+"open_controls" = "Abrir controles…";
+"settings" = "Ajustes…";
+"settings_title" = "Ajustes do ScreenMate";
+"show_display_toast" = "Mostrar aviso ao trocar de tela";
+"toast_detected" = "CONFIGURAÇÃO DE TELAS ALTERADA";
+"toast_paused" = "RESTAURAÇÃO AUTOMÁTICA PAUSADA";
+"toast_paused_detail" = "A restauração automática está desativada.";
+"toast_attention" = "ACESSO NECESSÁRIO";
+"toast_new_setup" = "NOVA CONFIGURAÇÃO DE TELAS";
+"toast_complete" = "RESTAURAÇÃO CONCLUÍDA";

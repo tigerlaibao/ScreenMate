@@ -41,3 +41,15 @@
 "welcome_body" = "1. Aşağıdaki düğmeyle Sistem Ayarları’ndan Erişilebilirlik izni verin.\n\n2. Evdeki ekranınızı bağlayın, pencereleri düzenleyin ve menü çubuğundan “Geçerli Düzeni Kaydet” seçeneğini seçin.\n\n3. İşte başka bir düzen kaydedin. Tekrar geçiş yaptığınızda pencereler yaklaşık 3 saniyede geri yüklenir.";
 "open_settings" = "Erişilebilirlik Ayarlarını Aç";
 "welcome_note" = "ScreenMate menü çubuğunda bulunur. Açık normal pencereleri geri yükler; küçültülmüş, tam ekran pencereleri ve Spaces’i atlar. Ayırt edilemeyen pencereler elle düzenleme gerektirebilir.\n\nDüzenler bu Mac’te kalır. Otomatik düzen güncellemeleri varsayılan olarak kapalıdır.";
+"show_menu_bar_icon" = "Menü Çubuğu Simgesini Göster";
+"menu_bar_hint" = "Gizlendiğinde ScreenMate Dock’ta kalır. Ayarları açmak için Dock simgesine tıklayın. Otomatik geri yükleme çalışmaya devam eder.";
+"open_controls" = "Denetimleri Aç…";
+"settings" = "Ayarlar…";
+"settings_title" = "ScreenMate Ayarları";
+"show_display_toast" = "Ekran Değişikliği Bildirimini Göster";
+"toast_detected" = "EKRAN YAPILANDIRMASI DEĞİŞTİ";
+"toast_paused" = "OTOMATİK GERİ YÜKLEME DURAKLATILDI";
+"toast_paused_detail" = "Otomatik geri yükleme kapalı.";
+"toast_attention" = "ERİŞİM GEREKLİ";
+"toast_new_setup" = "YENİ EKRAN YAPILANDIRMASI";
+"toast_complete" = "DÜZEN GERİ YÜKLEME TAMAMLANDI";

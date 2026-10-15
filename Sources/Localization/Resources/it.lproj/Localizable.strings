@@ -41,3 +41,15 @@
 "welcome_body" = "1. Usa il pulsante qui sotto per consentire Accessibilità nelle Impostazioni di Sistema.\n\n2. Collega lo schermo di casa, disponi le finestre e scegli “Salva disposizione attuale” dalla barra dei menu.\n\n3. Salva un’altra disposizione al lavoro. Al prossimo cambio, le finestre verranno ripristinate dopo circa 3 secondi.";
 "open_settings" = "Apri impostazioni di Accessibilità";
 "welcome_note" = "ScreenMate rimane nella barra dei menu. Ripristina le normali finestre aperte e ignora quelle ridotte a icona, a tutto schermo e Spaces. Le finestre ambigue possono richiedere regolazioni manuali.\n\nLe disposizioni restano su questo Mac. L’aggiornamento automatico è disattivato per impostazione predefinita.";
+"show_menu_bar_icon" = "Mostra icona nella barra dei menu";
+"menu_bar_hint" = "Quando è nascosta, ScreenMate rimane nel Dock. Fai clic sull’icona per aprire le impostazioni. Il ripristino automatico continua.";
+"open_controls" = "Apri controlli…";
+"settings" = "Impostazioni…";
+"settings_title" = "Impostazioni di ScreenMate";
+"show_display_toast" = "Mostra avviso al cambio di schermo";
+"toast_detected" = "CONFIGURAZIONE SCHERMI MODIFICATA";
+"toast_paused" = "RIPRISTINO AUTOMATICO IN PAUSA";
+"toast_paused_detail" = "Il ripristino automatico è disattivato.";
+"toast_attention" = "ACCESSO RICHIESTO";
+"toast_new_setup" = "NUOVA CONFIGURAZIONE SCHERMI";
+"toast_complete" = "RIPRISTINO TERMINATO";

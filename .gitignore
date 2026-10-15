@@ -9,3 +9,5 @@ dist/
 *.mobileprovision
 *.xcuserstate
 xcuserdata/
+__pycache__/
+*.pyc

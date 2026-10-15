@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 — 2026-10-15
+
+- Optional menu bar icon with an immediate switch to Dock mode when hidden.
+- Settings and all controls remain accessible through the Dock without restarting.
+- Large terminal-style display-change toast with progress, restore results, automatic fade-out, and an independent visibility preference.
+- Localized visibility and transition messages in all 15 supported languages.
+- Scrollable settings content for smaller screens and longer translations.
+
 ## 0.1.0 — 2026-10-15
 
 First public release.

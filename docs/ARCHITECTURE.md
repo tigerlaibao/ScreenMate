@@ -129,3 +129,9 @@ Useful future improvements include named manual profiles for identity collisions
 - [Apple: display configuration changes](https://developer.apple.com/documentation/appkit/nsapplication/didchangescreenparametersnotification)
 - [Apple: Accessibility position attribute](https://developer.apple.com/documentation/applicationservices/kaxpositionattribute)
 - [Apple: setting Accessibility attribute values](https://developer.apple.com/documentation/applicationservices/1460434-axuielementsetattributevalue)
+
+## Presentation modes and transition overlay
+
+The `showsMenuBarIcon` preference defaults to true. With it enabled, the app uses accessory activation and a visible status item. Hiding the status item switches activation to regular mode, retaining the Dock icon as a persistent settings entry point. `applicationShouldHandleReopen` brings Settings forward, and closing the last window never terminates the background process. Open Controls exposes the same menu from Settings, so saving, restoring, and preferences remain reachable in either mode.
+
+`DisplayToast` owns a borderless, nonactivating, mouse-transparent panel. Actual display fingerprint changes show a three-second progress indicator, and restoration updates the result text. Results fade out after two seconds; an eight-second dismissal is also scheduled when showing the overlay. Repeated changes replace the panel and cancel stale timers/dismissals using a generation counter. The overlay does not move or raise user windows. `showsDisplayToast` defaults to true and can disable the panel independently of automatic restoration. As with restoration, timers run on the main thread, so a blocked Accessibility operation can delay visual updates until control returns.

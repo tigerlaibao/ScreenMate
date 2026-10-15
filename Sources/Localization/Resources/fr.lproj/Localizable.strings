@@ -41,3 +41,15 @@
 "welcome_body" = "1. Utilisez le bouton ci-dessous pour autoriser l’accessibilité dans Réglages Système.\n\n2. Branchez votre écran à domicile, disposez vos fenêtres, puis choisissez « Enregistrer la disposition actuelle » dans la barre des menus.\n\n3. Enregistrez une autre disposition au bureau. Au prochain changement, les fenêtres seront restaurées après environ 3 secondes.";
 "open_settings" = "Ouvrir les réglages d’accessibilité";
 "welcome_note" = "ScreenMate reste dans la barre des menus. Il restaure les fenêtres ordinaires ouvertes et ignore les fenêtres réduites, en plein écran et Spaces. Les fenêtres ambiguës peuvent nécessiter un ajustement manuel.\n\nLes dispositions restent sur ce Mac. Leur actualisation automatique est désactivée par défaut.";
+"show_menu_bar_icon" = "Afficher l’icône dans la barre des menus";
+"menu_bar_hint" = "Si l’icône est masquée, ScreenMate reste dans le Dock. Cliquez sur son icône pour ouvrir les réglages. La restauration automatique continue.";
+"open_controls" = "Ouvrir les commandes…";
+"settings" = "Réglages…";
+"settings_title" = "Réglages de ScreenMate";
+"show_display_toast" = "Afficher une notification au changement d’écran";
+"toast_detected" = "CONFIGURATION D’ÉCRANS MODIFIÉE";
+"toast_paused" = "RESTAURATION AUTOMATIQUE EN PAUSE";
+"toast_paused_detail" = "La restauration automatique est désactivée.";
+"toast_attention" = "ACCÈS REQUIS";
+"toast_new_setup" = "NOUVELLE CONFIGURATION D’ÉCRANS";
+"toast_complete" = "RESTAURATION TERMINÉE";

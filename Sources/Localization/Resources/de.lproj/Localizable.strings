@@ -41,3 +41,15 @@
 "welcome_body" = "1. Erlaube über die Schaltfläche unten den Zugriff auf Bedienungshilfen in den Systemeinstellungen.\n\n2. Schließe deinen Bildschirm zu Hause an, ordne die Fenster an und wähle „Aktuelles Layout speichern“ in der Menüleiste.\n\n3. Speichere ein weiteres Layout im Büro. Beim Wechsel werden die Fenster nach etwa 3 Sekunden wiederhergestellt.";
 "open_settings" = "Einstellungen für Bedienungshilfen öffnen";
 "welcome_note" = "ScreenMate befindet sich in der Menüleiste. Es stellt geöffnete normale Fenster wieder her und überspringt minimierte Fenster, Vollbildfenster und Spaces. Nicht eindeutig zuordenbare Fenster erfordern eventuell manuelle Anpassungen.\n\nLayouts bleiben auf diesem Mac. Automatische Layoutupdates sind standardmäßig aus.";
+"show_menu_bar_icon" = "Symbol in der Menüleiste anzeigen";
+"menu_bar_hint" = "Wenn das Symbol ausgeblendet ist, bleibt ScreenMate im Dock. Klicke dort auf das Symbol, um die Einstellungen zu öffnen. Die automatische Wiederherstellung läuft weiter.";
+"open_controls" = "Steuerungsmenü öffnen…";
+"settings" = "Einstellungen…";
+"settings_title" = "ScreenMate-Einstellungen";
+"show_display_toast" = "Hinweis bei Bildschirmwechsel anzeigen";
+"toast_detected" = "BILDSCHIRMKONFIGURATION GEÄNDERT";
+"toast_paused" = "AUTOMATISCHE WIEDERHERSTELLUNG PAUSIERT";
+"toast_paused_detail" = "Die automatische Wiederherstellung ist ausgeschaltet.";
+"toast_attention" = "ZUGRIFF ERFORDERLICH";
+"toast_new_setup" = "NEUE BILDSCHIRMKONFIGURATION";
+"toast_complete" = "LAYOUT-WIEDERHERSTELLUNG BEENDET";

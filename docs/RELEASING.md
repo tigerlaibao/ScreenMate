@@ -13,25 +13,33 @@
 The release workflow runs on a `v*` tag push. It checks that the tag equals `v` plus the contents of `VERSION`, runs tests, builds a universal app, and publishes a GitHub Release containing the ZIP and checksum with the corresponding release notes.
 
 ```sh
-git tag -a v0.1.0 -m "Release ScreenMate 0.1.0"
+git tag -a v0.2.0 -m "Release ScreenMate 0.2.0"
 git push origin main
-git push origin v0.1.0
+git push origin v0.2.0
 ```
 
 Inspect the Actions run and the public release's Assets before announcing a release. If the workflow fails, fix the issue and rerun the failed job; do not claim a source-only release contains the app. Do not silently replace already published binary assets.
 
 ## Manual publication
 
+For a local source directory without a `.git` checkout, use:
+
+```sh
+bash scripts/publish-release.sh
+```
+
+Run it in your own authenticated terminal. It tests and packages the app, clones the public repository into a temporary directory, commits the explicit project source/documentation paths, pushes main, and publishes the ZIP and checksum against that exact commit. It refuses to replace an existing release. Credentials stay with your normal GitHub CLI setup; the script does not export or store a token file.
+
 An authenticated maintainer can instead publish locally built artifacts:
 
 ```sh
 bash scripts/package-release.sh
-gh release create v0.1.0 \
-  dist/ScreenMate-0.1.0-macOS-universal.zip \
-  dist/ScreenMate-0.1.0-macOS-universal.zip.sha256 \
+gh release create v0.2.0 \
+  dist/ScreenMate-0.2.0-macOS-universal.zip \
+  dist/ScreenMate-0.2.0-macOS-universal.zip.sha256 \
   --verify-tag \
-  --title "ScreenMate 0.1.0" \
-  --notes-file docs/releases/v0.1.0.md
+  --title "ScreenMate 0.2.0" \
+  --notes-file docs/releases/v0.2.0.md
 ```
 
 Use one publishing path for a given release, not both concurrently. A public repository must already exist and the tag must be pushed before using `--verify-tag`.

@@ -10,7 +10,7 @@ Save a layout at home, save another at work, and let your windows return when yo
 
 ## Download and install
 
-Download **ScreenMate-0.1.0-macOS-universal.zip** from [GitHub Releases](https://github.com/tigerlaibao/ScreenMate/releases/latest). The universal app supports Apple Silicon and Intel Macs running **macOS 13 or later**.
+Download **ScreenMate-0.2.0-macOS-universal.zip** from [GitHub Releases](https://github.com/tigerlaibao/ScreenMate/releases/latest). The universal app supports Apple Silicon and Intel Macs running **macOS 13 or later**.
 
 1. Unzip the download and drag **ScreenMate.app** into **Applications**.
 2. Open ScreenMate. If macOS blocks the app because it is not notarized, review **System Settings → Privacy & Security → Open Anyway** for this downloaded app. No system-wide security changes are needed.
@@ -29,10 +29,18 @@ The release is **ad-hoc signed, not Apple-notarized**. It does not require a pai
 - Match windows by application, unique Accessibility identifier, and unique title.
 - Keep windows within the usable screen area after display rearrangement.
 - Optional launch at login and optional saved-layout updates every 15 seconds.
+- Optional menu bar icon: hiding it switches to Dock mode, with Settings accessible by clicking the Dock icon.
+- Large terminal-style display-change toast with progress and results; automatically fades out and can be disabled.
 - English by default, with 15 interface languages and **Follow System Language** under **Language**. Switching takes effect immediately. See [supported languages](#languages).
 - Store everything locally. No accounts, telemetry, network requests, or third-party runtime dependencies.
 
 Automatic restoration is on by default. Automatic updates are off by default, so temporary window movements do not replace your saved preference.
+
+## Menu bar, Dock, and transition feedback
+
+Choose **Settings → Show Menu Bar Icon** to switch instantly between menu bar mode and Dock mode. With the menu bar icon hidden, ScreenMate remains in the Dock; click its Dock icon to reopen Settings. **Open Controls** provides all layout commands, language selection, and preferences. Closing Settings leaves restoration running in the background.
+
+A display configuration change shows a large terminal-style toast while ScreenMate waits for the displays to settle. The result stays for about two seconds and then fades away automatically. The overlay never takes keyboard focus or intercepts clicks. Toggle **Show Display Change Toast** under Open Controls to disable it.
 
 ## Languages
 

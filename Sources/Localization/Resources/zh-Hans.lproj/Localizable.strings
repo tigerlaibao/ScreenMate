@@ -41,3 +41,15 @@
 "welcome_body" = "1. 点击下方按钮，在系统设置中允许辅助功能。\n\n2. 接上家里的显示器，摆好窗口，从菜单栏选择「保存当前布局」。\n\n3. 在公司显示器上再保存一次。以后切换时，等待约 3 秒即可自动恢复。";
 "open_settings" = "打开辅助功能设置";
 "welcome_note" = "ScreenMate 常驻菜单栏。仅恢复已打开的普通窗口；跳过最小化、全屏窗口和桌面空间。无法明确匹配的窗口可能需要手动调整。\n\n布局只保存在本机，不联网。自动更新布局默认关闭。";
+"show_menu_bar_icon" = "显示菜单栏图标";
+"menu_bar_hint" = "隐藏后，ScreenMate 会保留在 Dock 中。点击 Dock 图标即可打开设置，自动恢复会继续运行。";
+"open_controls" = "打开控制菜单…";
+"settings" = "设置…";
+"settings_title" = "ScreenMate 设置";
+"show_display_toast" = "显示屏幕切换提示";
+"toast_detected" = "显示器组合已改变";
+"toast_paused" = "自动恢复已暂停";
+"toast_paused_detail" = "自动恢复当前处于关闭状态。";
+"toast_attention" = "需要授权";
+"toast_new_setup" = "新的显示器组合";
+"toast_complete" = "布局恢复已结束";

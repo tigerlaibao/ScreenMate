@@ -41,3 +41,15 @@
 "welcome_body" = "1. 點擊下方按鈕，在系統設定中允許輔助使用。\n\n2. 接上家中的顯示器，擺好視窗，從選單列選擇「儲存目前佈局」。\n\n3. 在公司的顯示器上再儲存一次。以後切換時，等待約 3 秒即可自動還原。";
 "open_settings" = "開啟輔助使用設定";
 "welcome_note" = "ScreenMate 常駐選單列。僅還原已開啟的一般視窗；略過最小化、全螢幕視窗和桌面空間。無法明確配對的視窗可能需要手動調整。\n\n佈局僅儲存在本機，不連線。自動更新佈局預設為關閉。";
+"show_menu_bar_icon" = "顯示選單列圖示";
+"menu_bar_hint" = "隱藏後，ScreenMate 會保留在 Dock 中。點擊 Dock 圖示即可開啟設定，自動還原會繼續運作。";
+"open_controls" = "開啟控制選單…";
+"settings" = "設定…";
+"settings_title" = "ScreenMate 設定";
+"show_display_toast" = "顯示螢幕切換提示";
+"toast_detected" = "顯示器組合已變更";
+"toast_paused" = "自動還原已暫停";
+"toast_paused_detail" = "自動還原目前已關閉。";
+"toast_attention" = "需要授權";
+"toast_new_setup" = "新的顯示器組合";
+"toast_complete" = "佈局還原已結束";

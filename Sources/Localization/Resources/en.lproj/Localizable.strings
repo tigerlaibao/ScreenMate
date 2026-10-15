@@ -41,3 +41,15 @@
 "welcome_body" = "1. Use the button below to grant Accessibility access in System Settings.\n\n2. Connect your home display, arrange your windows, then choose “Save Current Layout” from the menu bar.\n\n3. Save another layout at work. When you switch back, your windows restore after about 3 seconds.";
 "open_settings" = "Open Accessibility Settings";
 "welcome_note" = "ScreenMate lives in your menu bar. It restores open, regular windows and skips minimized windows, full-screen windows, and Spaces. Ambiguous windows may need manual adjustment.\n\nLayouts stay on this Mac. Automatic layout updates are off by default.";
+"show_menu_bar_icon" = "Show Menu Bar Icon";
+"menu_bar_hint" = "When hidden, ScreenMate stays in the Dock. Click its Dock icon to open settings. Automatic restoration keeps running.";
+"open_controls" = "Open Controls…";
+"settings" = "Settings…";
+"settings_title" = "ScreenMate Settings";
+"show_display_toast" = "Show Display Change Toast";
+"toast_detected" = "DISPLAY SETUP CHANGED";
+"toast_paused" = "AUTO-RESTORE PAUSED";
+"toast_paused_detail" = "Automatic restoration is turned off.";
+"toast_attention" = "ACCESS REQUIRED";
+"toast_new_setup" = "NEW DISPLAY SETUP";
+"toast_complete" = "LAYOUT SYNC FINISHED";

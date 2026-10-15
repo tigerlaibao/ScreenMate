@@ -41,3 +41,15 @@
 "welcome_body" = "1. 아래 버튼으로 시스템 설정에서 손쉬운 사용 권한을 허용하세요.\n\n2. 집의 디스플레이를 연결하고 창을 배치한 다음 메뉴 막대에서 ‘현재 레이아웃 저장’을 선택하세요.\n\n3. 회사에서도 저장하세요. 다음에 전환하면 약 3초 후 창이 복원됩니다.";
 "open_settings" = "손쉬운 사용 설정 열기";
 "welcome_note" = "ScreenMate는 메뉴 막대에 있습니다. 열려 있는 일반 창을 복원하며 최소화, 전체 화면 창 및 Spaces는 제외합니다. 구분할 수 없는 창은 수동 조정이 필요할 수 있습니다.\n\n레이아웃은 이 Mac에만 저장됩니다. 자동 업데이트는 기본적으로 꺼져 있습니다.";
+"show_menu_bar_icon" = "메뉴 막대 아이콘 표시";
+"menu_bar_hint" = "숨기면 ScreenMate가 Dock에 표시됩니다. Dock 아이콘을 클릭하여 설정을 여세요. 자동 복원은 계속 실행됩니다.";
+"open_controls" = "제어 메뉴 열기…";
+"settings" = "설정…";
+"settings_title" = "ScreenMate 설정";
+"show_display_toast" = "디스플레이 변경 알림 표시";
+"toast_detected" = "디스플레이 구성이 변경됨";
+"toast_paused" = "자동 복원 일시 중지";
+"toast_paused_detail" = "자동 복원이 꺼져 있습니다.";
+"toast_attention" = "권한 필요";
+"toast_new_setup" = "새 디스플레이 구성";
+"toast_complete" = "레이아웃 복원 완료";

@@ -41,3 +41,15 @@
 "welcome_body" = "1. Usa el botón de abajo para permitir el acceso a Accesibilidad en Ajustes del Sistema.\n\n2. Conecta la pantalla de casa, organiza las ventanas y elige «Guardar disposición actual» en la barra de menús.\n\n3. Guarda otra disposición en el trabajo. Al volver a cambiar, las ventanas se restaurarán tras unos 3 segundos.";
 "open_settings" = "Abrir ajustes de Accesibilidad";
 "welcome_note" = "ScreenMate está en la barra de menús. Restaura ventanas normales abiertas y omite ventanas minimizadas, a pantalla completa y Spaces. Las ventanas ambiguas pueden necesitar ajustes manuales.\n\nLas disposiciones permanecen en este Mac. La actualización automática está desactivada por defecto.";
+"show_menu_bar_icon" = "Mostrar icono en la barra de menús";
+"menu_bar_hint" = "Al ocultarlo, ScreenMate permanece en el Dock. Haz clic en su icono para abrir los ajustes. La restauración automática sigue funcionando.";
+"open_controls" = "Abrir controles…";
+"settings" = "Ajustes…";
+"settings_title" = "Ajustes de ScreenMate";
+"show_display_toast" = "Mostrar aviso al cambiar de pantalla";
+"toast_detected" = "CONFIGURACIÓN DE PANTALLAS CAMBIADA";
+"toast_paused" = "RESTAURACIÓN AUTOMÁTICA EN PAUSA";
+"toast_paused_detail" = "La restauración automática está desactivada.";
+"toast_attention" = "SE NECESITA ACCESO";
+"toast_new_setup" = "NUEVA CONFIGURACIÓN DE PANTALLAS";
+"toast_complete" = "RESTAURACIÓN FINALIZADA";

@@ -26,6 +26,14 @@ Use sample windows without private titles when capturing screenshots or reportin
 | Rearrange a screen to the left or above | Windows follow that display and remain in visible bounds |
 | Change scaling/resolution | A new setup is selected and needs a saved layout |
 | Repeated fast connect/disconnect | Pending automatic restore is canceled and only the latest setup is restored |
+| Hide menu bar icon | Icon and its slot disappear immediately; Dock icon remains; background restoration continues |
+| Click Dock icon after closing Settings | Settings reopens without restarting, and Open Controls exposes all actions |
+| Show menu bar icon again | Menu bar icon returns immediately and Dock mode ends |
+| Restart with icon hidden | Dock mode persists and layout restoration still runs |
+| Display-change toast | Large terminal-style progress appears without focus changes or blocked clicks; result fades automatically after about two seconds |
+| Disable display-change toast | Subsequent display changes restore layouts without an overlay |
+| Rapid repeated display changes | The newest overlay replaces the previous one; old dismissal cannot remove the new overlay |
+| Small screen or long translations | Settings can scroll and controls remain reachable |
 | Disable automatic restoration | Later display changes do not move windows through ScreenMate |
 | Sleep and wake | The saved current setup is restored after wake settles |
 | Minimized and native full-screen windows | They are skipped |
