@@ -39,11 +39,25 @@ enum WindowService {
         return value
     }
 
-    static func windows(displays: [Display]) -> [LiveWindow] {
+    private static func frame(of window: AXUIElement) -> Rect? {
+        guard let position = attribute(window, kAXPositionAttribute), CFGetTypeID(position) == AXValueGetTypeID(),
+              let size = attribute(window, kAXSizeAttribute), CFGetTypeID(size) == AXValueGetTypeID() else { return nil }
+        let positionValue = position as! AXValue
+        let sizeValue = size as! AXValue
+        guard AXValueGetType(positionValue) == .cgPoint, AXValueGetType(sizeValue) == .cgSize else { return nil }
+        var point = CGPoint.zero, dimensions = CGSize.zero
+        guard AXValueGetValue(positionValue, .cgPoint, &point),
+              AXValueGetValue(sizeValue, .cgSize, &dimensions),
+              dimensions.width > 0, dimensions.height > 0 else { return nil }
+        return Rect(CGRect(origin: point, size: dimensions))
+    }
+
+    static func windows(displays: [Display], bundleIDs: Set<String>? = nil) -> [LiveWindow] {
         guard trusted else { return [] }
         var result: [LiveWindow] = []
         for app in NSWorkspace.shared.runningApplications where app.activationPolicy == .regular && app.processIdentifier != ProcessInfo.processInfo.processIdentifier {
             guard let bundleID = app.bundleIdentifier else { continue }
+            if let bundleIDs, !bundleIDs.contains(bundleID) { continue }
             let element = AXUIElementCreateApplication(app.processIdentifier)
             AXUIElementSetMessagingTimeout(element, 0.2)
             guard let windows = attribute(element, kAXWindowsAttribute) as? [AXUIElement] else { continue }
@@ -52,13 +66,7 @@ enum WindowService {
                 guard subrole == kAXStandardWindowSubrole || subrole == kAXDialogSubrole,
                       attribute(window, kAXMinimizedAttribute) as? Bool != true,
                       attribute(window, "AXFullScreen") as? Bool != true,
-                      let position = attribute(window, kAXPositionAttribute), CFGetTypeID(position) == AXValueGetTypeID(),
-                      let size = attribute(window, kAXSizeAttribute), CFGetTypeID(size) == AXValueGetTypeID() else { continue }
-                var point = CGPoint.zero, dimensions = CGSize.zero
-                guard AXValueGetValue(position as! AXValue, .cgPoint, &point),
-                      AXValueGetValue(size as! AXValue, .cgSize, &dimensions),
-                      dimensions.width > 0, dimensions.height > 0 else { continue }
-                let rect = Rect(CGRect(origin: point, size: dimensions))
+                      let rect = frame(of: window) else { continue }
                 guard let display = LayoutGeometry.display(for: rect, in: displays) else { continue }
                 let snapshot = SavedWindow(bundleID: bundleID,
                                            title: attribute(window, kAXTitleAttribute) as? String ?? "",
@@ -70,27 +78,41 @@ enum WindowService {
         return result
     }
 
-    static func restore(_ layout: Layout, displays: [Display]) -> (restored: Int, total: Int) {
+    static func restore(_ layout: Layout, displays: [Display], shouldContinue: @escaping () -> Bool,
+                        completion: @escaping (Int, Int) -> Void) {
         let live = windows(displays: displays)
         let matches = WindowMatcher.matches(saved: layout.windows, live: live.map(\.snapshot))
-        var restored = 0
+        var handles: [Int: AXUIElement] = [:]
+        var targets: [WindowRestoreTarget] = []
         for (savedIndex, liveIndex) in matches {
             let saved = layout.windows[savedIndex]
             guard let old = layout.displays.first(where: { $0.id == saved.displayID }),
                   let new = displays.first(where: { $0.id == saved.displayID }) else { continue }
-            let frame = LayoutGeometry.restored(saved.frame, from: old, to: new)
-            let element = live[liveIndex].element
-            var point = CGPoint(x: frame.x, y: frame.y)
-            var size = CGSize(width: frame.width, height: frame.height)
-            guard let positionValue = AXValueCreate(.cgPoint, &point), let sizeValue = AXValueCreate(.cgSize, &size) else { continue }
-            // Moving before and after resizing handles cross-display size constraints.
-            _ = AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, positionValue)
-            let sizeResult = AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, sizeValue)
-            let positionResult = AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, positionValue)
-            if positionResult == .success && (sizeResult == .success || sizeResult == .attributeUnsupported) {
-                restored += 1
-            }
+            handles[savedIndex] = live[liveIndex].element
+            targets.append(WindowRestoreTarget(id: savedIndex, frame: LayoutGeometry.restored(saved.frame, from: old, to: new)))
         }
-        return (restored, layout.windows.count)
+        let operation = WindowRestoration(targets: targets, read: { index in
+            if let handle = handles[index], let actual = frame(of: handle) { return actual }
+            // Some apps recreate the window during display changes. Resolve a stale handle again.
+            let refreshed = windows(displays: displays, bundleIDs: [layout.windows[index].bundleID])
+            for (savedIndex, liveIndex) in WindowMatcher.matches(saved: layout.windows, live: refreshed.map(\.snapshot)) {
+                handles[savedIndex] = refreshed[liveIndex].element
+            }
+            guard let handle = handles[index] else { return nil }
+            return frame(of: handle)
+        }, apply: { index, target in
+            guard let element = handles[index],
+                  attribute(element, kAXMinimizedAttribute) as? Bool != true,
+                  attribute(element, "AXFullScreen") as? Bool != true else { return }
+            var point = CGPoint(x: target.x, y: target.y)
+            var size = CGSize(width: target.width, height: target.height)
+            guard let position = AXValueCreate(.cgPoint, &point), let dimensions = AXValueCreate(.cgSize, &size) else { return }
+            _ = AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, position)
+            _ = AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, dimensions)
+            _ = AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, position)
+        }, shouldContinue: shouldContinue, schedule: { delay, action in
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: action)
+        }, completion: { restored in completion(restored, layout.windows.count) })
+        operation.start()
     }
 }

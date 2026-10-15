@@ -97,7 +97,7 @@ final class DisplayToast {
         content.progress = 1; content.counter = "100%"
         content.setAccessibilityLabel(title + ". " + detail)
         content.needsDisplay = true
-        dismiss(after: 2)
+        dismiss(after: 1)
     }
 
     private func dismiss(after delay: TimeInterval) {

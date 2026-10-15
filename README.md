@@ -10,7 +10,7 @@ Save a layout at home, save another at work, and let your windows return when yo
 
 ## Download and install
 
-Download **ScreenMate-0.2.0-macOS-universal.zip** from [GitHub Releases](https://github.com/tigerlaibao/ScreenMate/releases/latest). The universal app supports Apple Silicon and Intel Macs running **macOS 13 or later**.
+Download **ScreenMate-0.2.1-macOS-universal.zip** from [GitHub Releases](https://github.com/tigerlaibao/ScreenMate/releases/latest). The universal app supports Apple Silicon and Intel Macs running **macOS 13 or later**.
 
 1. Unzip the download and drag **ScreenMate.app** into **Applications**.
 2. Open ScreenMate. If macOS blocks the app because it is not notarized, review **System Settings → Privacy & Security → Open Anyway** for this downloaded app. No system-wide security changes are needed.
@@ -40,7 +40,7 @@ Automatic restoration is on by default. Automatic updates are off by default, so
 
 Choose **Settings → Show Menu Bar Icon** to switch instantly between menu bar mode and Dock mode. With the menu bar icon hidden, ScreenMate remains in the Dock; click its Dock icon to reopen Settings. **Open Controls** provides all layout commands, language selection, and preferences. Closing Settings leaves restoration running in the background.
 
-A display configuration change shows a large terminal-style toast while ScreenMate waits for the displays to settle. The result stays for about two seconds and then fades away automatically. The overlay never takes keyboard focus or intercepts clicks. Toggle **Show Display Change Toast** under Open Controls to disable it.
+A display configuration change shows a large terminal-style toast while ScreenMate waits for the displays to settle. The result stays for about one second and then fades away automatically. The overlay never takes keyboard focus or intercepts clicks. Toggle **Show Display Change Toast** under Open Controls to disable it.
 
 ## Languages
 

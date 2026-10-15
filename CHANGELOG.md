@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 — 2026-10-15
+
+- Reduce the display-change result toast hold time to one second.
+- Verify actual window geometry across two observations instead of treating accepted Accessibility writes as restoration success.
+- Retry ignored or reverted window moves up to three times and resolve stale Accessibility window handles again.
+- Cancel pending retries when the display configuration changes or the user starts a new layout action.
+- Add regression coverage for asynchronous, reverted, ignored, missing, and canceled window restoration.
+
 ## 0.2.0 — 2026-10-15
 
 - Optional menu bar icon with an immediate switch to Dock mode when hidden.

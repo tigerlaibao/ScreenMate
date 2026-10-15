@@ -30,7 +30,7 @@ Use sample windows without private titles when capturing screenshots or reportin
 | Click Dock icon after closing Settings | Settings reopens without restarting, and Open Controls exposes all actions |
 | Show menu bar icon again | Menu bar icon returns immediately and Dock mode ends |
 | Restart with icon hidden | Dock mode persists and layout restoration still runs |
-| Display-change toast | Large terminal-style progress appears without focus changes or blocked clicks; result fades automatically after about two seconds |
+| Display-change toast | Large terminal-style progress appears without focus changes or blocked clicks; result fades automatically after about one second |
 | Disable display-change toast | Subsequent display changes restore layouts without an overlay |
 | Rapid repeated display changes | The newest overlay replaces the previous one; old dismissal cannot remove the new overlay |
 | Small screen or long translations | Settings can scroll and controls remain reachable |
@@ -43,3 +43,7 @@ Use sample windows without private titles when capturing screenshots or reportin
 | Downloaded ZIP on a second Mac | App unzips, has its icon/localizations, and runs after any required macOS approval |
 
 Record macOS version, CPU architecture, display/dock models, app names/versions, and the cases actually tested. Do not mark unperformed cases as passing.
+
+## ToDesk compatibility regression
+
+Save the regular ToDesk session window on both laptop-only and external-display setups. Move it, restore, and verify both its final position and size. Repeat while connecting/disconnecting displays. The count should only include windows whose geometry is confirmed; rejected or constrained sizes may still be skipped. Verify that a second display change or a manual save cancels pending retries. Do not close or disconnect a remote session as part of testing.

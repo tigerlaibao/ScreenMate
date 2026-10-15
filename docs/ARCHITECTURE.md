@@ -10,7 +10,7 @@ The implementation uses public macOS APIs and local files. It does not try to re
 
 | Component | Responsibility |
 | --- | --- |
-| `LayoutCore` | Codable snapshots, display-setup keys, geometry conversion between saved/current displays, conservative window matching, local storage and migration |
+| `LayoutCore` | Codable snapshots, display-setup keys, geometry conversion, conservative matching, verified/retried restoration, local storage and migration |
 | `Localization` | 15 language catalogs, persistent language override, system-language selection, English fallback |
 | `AppDelegate` | Menu bar UI, application lifecycle, display notifications, restore debounce, auto-save timer, login item registration |
 | `WindowService` | Display discovery, Accessibility permission checks, window enumeration, movement and resizing |
@@ -86,7 +86,7 @@ Negative coordinates are valid for screens positioned left of or above the prima
 
 Restoration preserves a window's offset from its saved display's visible origin and applies that offset to the same physical display's current visible origin. Window dimensions are preserved in logical points, limited to the current visible width and height. Position is clamped so the target rectangle stays inside the visible area.
 
-The Accessibility write sequence is position → size → position. Moving first helps with cross-display constraints; moving again accounts for size adjustments. Applications can reject writes, enforce minimum sizes, or reposition windows themselves. The displayed restored count reflects successful API writes, not an independent visual verification of final geometry.
+The Accessibility write sequence is position → size → position. Moving first helps with cross-display constraints; moving again accounts for size adjustments. Applications can reject writes, enforce minimum sizes, or reposition windows themselves. The app reads back geometry at 250 ms intervals and requires two consecutive observations within two logical points of the target position and size. Ignored or reverted moves receive at most three write attempts. Stale handles are resolved again using the same conservative matching policy. Cancellation checks stop retries when the display fingerprint changes or a newer action takes over. The restored count reflects these short-term geometry confirmations; it cannot guarantee an app will never change its own layout later.
 
 ## Events and timing
 
@@ -134,4 +134,4 @@ Useful future improvements include named manual profiles for identity collisions
 
 The `showsMenuBarIcon` preference defaults to true. With it enabled, the app uses accessory activation and a visible status item. Hiding the status item switches activation to regular mode, retaining the Dock icon as a persistent settings entry point. `applicationShouldHandleReopen` brings Settings forward, and closing the last window never terminates the background process. Open Controls exposes the same menu from Settings, so saving, restoring, and preferences remain reachable in either mode.
 
-`DisplayToast` owns a borderless, nonactivating, mouse-transparent panel. Actual display fingerprint changes show a three-second progress indicator, and restoration updates the result text. Results fade out after two seconds; an eight-second dismissal is also scheduled when showing the overlay. Repeated changes replace the panel and cancel stale timers/dismissals using a generation counter. The overlay does not move or raise user windows. `showsDisplayToast` defaults to true and can disable the panel independently of automatic restoration. As with restoration, timers run on the main thread, so a blocked Accessibility operation can delay visual updates until control returns.
+`DisplayToast` owns a borderless, nonactivating, mouse-transparent panel. Actual display fingerprint changes show a three-second progress indicator, and restoration updates the result text. Results fade out after one second; an eight-second dismissal is also scheduled when showing the overlay. Repeated changes replace the panel and cancel stale timers/dismissals using a generation counter. The overlay does not move or raise user windows. `showsDisplayToast` defaults to true and can disable the panel independently of automatic restoration. As with restoration, timers run on the main thread, so a blocked Accessibility operation can delay visual updates until control returns.

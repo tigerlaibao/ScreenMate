@@ -35,11 +35,11 @@ This compiles for both `arm64-apple-macosx13.0` and `x86_64-apple-macosx13.0`, c
 
 ```text
 dist/ScreenMate.app
-dist/ScreenMate-0.2.0-macOS-universal.zip
-dist/ScreenMate-0.2.0-macOS-universal.zip.sha256
+dist/ScreenMate-0.2.1-macOS-universal.zip
+dist/ScreenMate-0.2.1-macOS-universal.zip.sha256
 ```
 
-File versions follow `VERSION`; the names above are examples for 0.2.0. To build just a universal app, use `bash scripts/build-app.sh --universal`.
+File versions follow `VERSION`; the names above are examples for 0.2.1. To build just a universal app, use `bash scripts/build-app.sh --universal`.
 
 ## Verify the output
 
@@ -49,7 +49,7 @@ codesign --verify --deep --strict dist/ScreenMate.app
 plutil -lint dist/ScreenMate.app/Contents/Info.plist
 dist/ScreenMate.app/Contents/MacOS/ScreenMate --check-resources
 cd dist
-shasum -a 256 -c ScreenMate-0.2.0-macOS-universal.zip.sha256
+shasum -a 256 -c ScreenMate-0.2.1-macOS-universal.zip.sha256
 ```
 
 A universal executable reports `arm64 x86_64` (the order may differ). A checksum verifies the downloaded bytes match the accompanying checksum file; it is not a Developer ID signature or notarization.

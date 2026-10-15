@@ -256,9 +256,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             displayToast.finish(title: L10n.text("toast_new_setup"), detail: lastMessage)
             return
         }
-        let result = WindowService.restore(layout, displays: displays)
-        lastMessage = L10n.format("restored_status", result.restored, result.total)
-        displayToast.finish(title: L10n.text("toast_complete"), detail: lastMessage)
+        let expected = generation
+        let expectedConfiguration = fingerprint(displays)
+        WindowService.restore(layout, displays: displays, shouldContinue: { [weak self] in
+            guard let self else { return false }
+            return self.generation == expected && self.fingerprint(WindowService.displays()) == expectedConfiguration
+        }, completion: { [weak self] restored, total in
+            guard let self, self.generation == expected else { return }
+            self.lastMessage = L10n.format("restored_status", restored, total)
+            self.displayToast.finish(title: L10n.text("toast_complete"), detail: self.lastMessage)
+        })
     }
 
     @objc private func toggleRestore() {
