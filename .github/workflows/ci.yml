@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test core logic and localizations
+        run: bash scripts/test.sh
+      - name: Build and verify native app
+        run: bash scripts/build-app.sh
