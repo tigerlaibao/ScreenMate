@@ -7,11 +7,58 @@ private final class ToastPanel: NSPanel {
 }
 
 private final class ToastView: NSView {
-    var title = ""
-    var detail = ""
-    var progress: Double = 0
-    var counter = ""
+    var title = "" { didSet { titleLabel.stringValue = title } }
+    var detail = "" { didSet { detailLabel.stringValue = detail } }
+    var progress: Double = 0 { didSet { needsDisplay = true } }
+    var counter = "" { didSet { counterLabel.stringValue = counter } }
     private let mint = NSColor(calibratedRed: 0.36, green: 1, blue: 0.65, alpha: 1)
+    private let headerLabel = NSTextField(labelWithString: "SCREENMATE  //  DISPLAY WATCH")
+    private let titleLabel = NSTextField(labelWithString: "")
+    private let detailLabel = NSTextField(labelWithString: "")
+    private let counterLabel = NSTextField(labelWithString: "")
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        configureLabels()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        configureLabels()
+    }
+
+    private func configureLabels() {
+        configureLabel(headerLabel, size: 11, color: mint.withAlphaComponent(0.7), weight: .medium)
+        configureLabel(titleLabel, size: 24, color: mint, weight: .semibold)
+        configureLabel(detailLabel, size: 12, color: .white.withAlphaComponent(0.8))
+        configureLabel(counterLabel, size: 11, color: mint)
+        titleLabel.maximumNumberOfLines = 3
+        detailLabel.maximumNumberOfLines = 2
+        for label in [headerLabel, titleLabel, detailLabel, counterLabel] {
+            addSubview(label)
+        }
+    }
+
+    private func configureLabel(_ label: NSTextField, size: CGFloat, color: NSColor,
+                                weight: NSFont.Weight = .regular) {
+        // Let AppKit's standard text field manage its font attributes. Direct NSString
+        // drawing with a monospaced system font can produce an invalid CoreText font
+        // attribute dictionary on some macOS versions and abort the process.
+        label.font = .systemFont(ofSize: size, weight: weight)
+        label.textColor = color
+        label.alignment = L10n.isRightToLeft ? .right : .left
+        label.lineBreakMode = .byWordWrapping
+        label.isSelectable = false
+        label.setAccessibilityElement(false)
+    }
+
+    override func layout() {
+        super.layout()
+        headerLabel.frame = NSRect(x: 30, y: bounds.height - 48, width: bounds.width - 60, height: 20)
+        titleLabel.frame = NSRect(x: 30, y: 95, width: bounds.width - 60, height: 74)
+        detailLabel.frame = NSRect(x: 30, y: 52, width: bounds.width - 60, height: 42)
+        counterLabel.frame = NSRect(x: bounds.width - 80, y: 20, width: 50, height: 18)
+    }
 
     override func draw(_ dirtyRect: NSRect) {
         let box = bounds.insetBy(dx: 2, dy: 2)
@@ -27,24 +74,10 @@ private final class ToastView: NSView {
             line.move(to: NSPoint(x: 16, y: y)); line.line(to: NSPoint(x: bounds.width - 16, y: y))
             line.lineWidth = 0.5; line.stroke()
         }
-        drawText("SCREENMATE  //  DISPLAY WATCH", in: NSRect(x: 30, y: bounds.height - 48, width: bounds.width - 60, height: 20), size: 11, color: mint.withAlphaComponent(0.7))
-        drawText(title, in: NSRect(x: 30, y: 95, width: bounds.width - 60, height: 74), size: 24, color: mint, weight: .semibold)
-        drawText(detail, in: NSRect(x: 30, y: 52, width: bounds.width - 60, height: 42), size: 12, color: .white.withAlphaComponent(0.8))
         let track = NSRect(x: 30, y: 27, width: bounds.width - 120, height: 4)
         mint.withAlphaComponent(0.13).setFill(); NSBezierPath(roundedRect: track, xRadius: 2, yRadius: 2).fill()
         mint.setFill()
         NSBezierPath(roundedRect: NSRect(x: track.minX, y: track.minY, width: track.width * min(max(progress, 0), 1), height: 4), xRadius: 2, yRadius: 2).fill()
-        drawText(counter, in: NSRect(x: bounds.width - 80, y: 20, width: 50, height: 18), size: 11, color: mint)
-    }
-
-    private func drawText(_ string: String, in rect: NSRect, size: CGFloat, color: NSColor, weight: NSFont.Weight = .regular) {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = L10n.isRightToLeft ? .right : .left
-        paragraph.lineBreakMode = .byWordWrapping
-        (string as NSString).draw(in: rect, withAttributes: [
-            .font: NSFont.monospacedSystemFont(ofSize: size, weight: weight),
-            .foregroundColor: color, .paragraphStyle: paragraph
-        ])
     }
 }
 

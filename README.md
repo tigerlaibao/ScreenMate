@@ -10,7 +10,7 @@ Save a layout at home, save another at work, and let your windows return when yo
 
 ## Download and install
 
-Download **ScreenMate-0.2.1-macOS-universal.zip** from [GitHub Releases](https://github.com/tigerlaibao/ScreenMate/releases/latest). The universal app supports Apple Silicon and Intel Macs running **macOS 13 or later**.
+Download **ScreenMate-0.2.2-macOS-universal.zip** from [GitHub Releases](https://github.com/tigerlaibao/ScreenMate/releases/latest). The universal app supports Apple Silicon and Intel Macs running **macOS 13 or later**.
 
 1. Unzip the download and drag **ScreenMate.app** into **Applications**.
 2. Open ScreenMate. If macOS blocks the app because it is not notarized, review **System Settings → Privacy & Security → Open Anyway** for this downloaded app. No system-wide security changes are needed.

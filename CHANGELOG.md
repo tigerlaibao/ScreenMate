@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 — 2026-11-01
+
+- Prevent display-change toast crashes caused by CoreText receiving an invalid font attribute dictionary on some macOS versions.
+- Move toast text rendering to standard AppKit labels and use system fonts while preserving the existing overlay layout and accessibility summary.
+
 ## 0.2.1 — 2026-10-15
 
 - Reduce the display-change result toast hold time to one second.
