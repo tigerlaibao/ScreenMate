@@ -4,7 +4,7 @@
 
 Run `bash scripts/test.sh` on macOS. Tests cover display-setup identity, geometry, conservative window matching, JSON round trips, and translation consistency. `bash scripts/build-app.sh` additionally checks bundled resources and the ad-hoc signature. `bash scripts/package-release.sh` builds both supported CPU architectures.
 
-CI runs the tests and builds an app on macOS. Tagged releases run the same tests and universal packaging before publishing assets. These checks do not imply successful real-display or Accessibility testing.
+Before publishing changes, run the tests and build checks locally on macOS. These checks do not imply successful real-display or Accessibility testing.
 
 ## Manual acceptance checklist
 
